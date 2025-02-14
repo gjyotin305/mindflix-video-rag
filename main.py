@@ -28,7 +28,9 @@ video_interface = gr.Interface(
 )
 
 # Chatbot interface
-chat_interface = gr.ChatInterface(fn=chatbot_response)
+chat_interface = gr.ChatInterface(
+    fn=chatbot_response
+)
 
 # Multi-tab Gradio App
 with gr.Blocks() as demo:
