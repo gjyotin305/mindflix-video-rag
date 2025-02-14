@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 from tqdm import tqdm
+import os
 
 # # Load a pretrained YOLO11n model
 # model = YOLO("yolo11n.pt")
@@ -16,9 +17,12 @@ class ImageParsing:
             f"{yolo_version}n.pt"
         )
 
-    def yolo_inference_on_yt_video(self, vid_url: str, save_dir: str):
+    def yolo_inference_on_yt_video(self, vid_dir: str, save_dir: str):
+        img_dir = os.listdir(vid_dir)
+        img_dir_fpath = [f"{vid_dir}/{img}" for img in img_dir]
+
         results = self.yolo_model(
-            vid_url, 
+            img_dir_fpath, 
             stream=True, 
             save=True, 
             project=save_dir,

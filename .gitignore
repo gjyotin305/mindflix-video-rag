@@ -9,6 +9,7 @@ __pycache__/
 *.jpg
 *.pt
 *.avi
+*.mp4
 
 # Gradio
 .gradio/
