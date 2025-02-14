@@ -5,6 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
+# Models and images
+*.jpg
+*.pt
+*.avi
 
 # Gradio
 .gradio/
