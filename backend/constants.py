@@ -1,13 +1,17 @@
 EXTRACT_PROMPT="""  
-Analyze this image thoroughly. Provide a concise, structured response (under 150 words) covering:  
-
-1. **Objects/Entities**: List all items (counts, types, positions), including people, animals, objects, and notable features (e.g., clothing, size).  
-2. **Scene**: Indoor/outdoor setting, time of day, weather, and lighting (e.g., sunny, dim).  
-3. **Actions/Interactions**: Describe activities, gestures, expressions, and interactions between entities.  
-4. **Visual Style**: Dominant colors, textures, patterns, and striking visual elements.  
-5. **Mood**: Atmosphere (e.g., cheerful, tense) and emotions suggested by elements or expressions.  
-6. **Key Highlights**: Unusual details, anomalies, or focal points. Suggest a brief plausible narrative.  
-
-Keep descriptions factual, specific, and avoid assumptions.
+Analyze the image thoroughly using the detected bounding boxes. Provide a concise, structured response (under 150 words) covering:
+Objects/Entities: Identify all detected objects (type, count, and position). For detections, note the confidence scores and distribution across the image.
+Scene: Determine whether the setting is indoor/outdoor, estimate time of day if possible, and describe lighting conditions.
+Actions/Interactions: Explain the activities, gestures, or movements of detected entities. Highlight any key interactions among them.
+Visual Composition: Describe dominant colors, textures, and notable patterns. Mention any symmetry, focal points, or unusual placements.
+Mood & Atmosphere: Assess the image’s emotional tone based on expressions, posture, or activity intensity.
+Key Highlights: Identify any anomalies or standout features. Provide a plausible brief narrative based on the arrangement and detected elements.
+Keep descriptions precise, data-driven, and avoid assumptions beyond what the bounding boxes indicate.
 """
-EMBED_MODEL="text-embedding-3-small"
+EMBED_MODEL="nomic-ai/nomic-embed-text-v1"
+EMBED_TEMPLATE="""
+TRANSCRIPT:
+{}
+SCENE DESCRIPTION:
+{}
+"""

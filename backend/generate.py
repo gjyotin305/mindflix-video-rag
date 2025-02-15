@@ -2,17 +2,20 @@ from ultralytics import YOLO
 from tqdm import tqdm
 import requests
 import os
+from constants import EXTRACT_PROMPT
 import base64
 
 class ImageParsing:
     def __init__(
-        self, 
-        yolo_version: str, 
-        vlm_avail: str = "llava:7b-v1.5-q6_K"
+        self,
+        base_url: str, 
+        yolo_version: str = "yolo11", 
+        vlm_avail: str = "llava:7b-v1.5-q6_K",
     ):
         self.yolo_model = YOLO(
             f"{yolo_version}n.pt"
         )
+        self.base_url = base_url
         self.vlm = vlm_avail
 
     def convert_image(self, img_file):
@@ -59,9 +62,15 @@ class ImageParsing:
 
 
 if __name__ == "__main__":
-    # img_parse = ImageParsing(
-    #     "yolo11"
-    # )
+    img_parse = ImageParsing(
+        "http://10.36.16.97:8443/api/generate",
+        "yolo11"
+    )
+    desc = img_parse.create_scene_description(
+        EXTRACT_PROMPT,
+        "./run_1/result_ftDsSB3F5kg_0:00:40.jpg"
+    )
+    print(desc)
     # img_parse.yolo_inference_on_yt_video(
     #     vid_dir="./data/ftDsSB3F5kg",
     #     save_dir="./run_1/"
