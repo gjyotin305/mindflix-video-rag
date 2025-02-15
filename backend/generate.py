@@ -5,7 +5,11 @@ import os
 import base64
 
 class ImageParsing:
-    def __init__(self, yolo_version: str, vlm_avail: str = "llava:7b-v1.5-q6_K"):
+    def __init__(
+        self, 
+        yolo_version: str, 
+        vlm_avail: str = "llava:7b-v1.5-q6_K"
+    ):
         self.yolo_model = YOLO(
             f"{yolo_version}n.pt"
         )
@@ -55,10 +59,10 @@ class ImageParsing:
 
 
 if __name__ == "__main__":
-    img_parse = ImageParsing(
-        "yolo11"
-    )
-    img_parse.yolo_inference_on_yt_video(
-        vid_dir="./data/ftDsSB3F5kg",
-        save_dir="./run_1/"
-    )
+    # img_parse = ImageParsing(
+    #     "yolo11"
+    # )
+    # img_parse.yolo_inference_on_yt_video(
+    #     vid_dir="./data/ftDsSB3F5kg",
+    #     save_dir="./run_1/"
+    # )
