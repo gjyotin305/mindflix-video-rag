@@ -30,7 +30,11 @@ class VectorDB:
         embeddings = self.model.encode(sentences)
         return embeddings
 
-    def push_desc_embedding(self, img_dir: str):
+    def push_desc_embedding(self, img_dir: str, batch_push: int = 10):
+        assert os.path.exists(img_dir)
+
+        video_id = img_dir.split('/')[-1]
+        vectors = []
         pass
 
 if __name__ == "__main__":
