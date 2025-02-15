@@ -13,7 +13,11 @@ class VideoBreakDown:
     def __init__(self, backend: str = "decord"):
         self.backend = backend
 
-    def get_vid_to_frame_by_frame(self, vid_url: str, every: int = 60):
+    def get_vid_to_frame_by_frame(
+        self, 
+        vid_url: str,
+        save_dir: str = "./data/", 
+        every: int = 60):
         yt = YouTube(url=vid_url)
         parsed_url = urlparse(
             url=vid_url
@@ -22,11 +26,11 @@ class VideoBreakDown:
         logger.debug(f"YT VIDEO TITLE: {yt.title}")
         yt_down = yt.streams.get_highest_resolution()
         logger.debug(f"YT VID: RESOLUTION {yt_down.resolution}")
-        yt_down.download(output_path=f"./data/", filename=f"{video_id}.mp4")
+        yt_down.download(output_path=f"{save_dir}", filename=f"{video_id}.mp4")
 
-        output_dir = f"./data/{video_id}"
+        output_dir = f"{save_dir}{video_id}"
         os.makedirs(output_dir, exist_ok=True)
-        vr = decord.VideoReader(f"./data/{video_id}.mp4")
+        vr = decord.VideoReader(f"{save_dir}{video_id}.mp4")
         
         vr_list = list(range(0, len(vr), every))
 
