@@ -8,18 +8,13 @@ from backend.constants import EMBED_MODEL
 import time
 import os
 
-vdb = VectorDB(
-    db_name="mindflix-nomic",
-    embed_model=EMBED_MODEL
-)
-
 # Function to handle video processing
 def process_video(url, progress=gr.Progress(track_tqdm=True)):
     if not url.strip():
         return "⚠️ Please enter a valid video URL."
 
     logger.debug(f"Video BreakDown has Started: URL {url}")
-
+    progress(0)
     vbd = VideoBreakDown()
     vbd.get_vid_to_frame_by_frame(
         vid_url=url
@@ -29,12 +24,12 @@ def process_video(url, progress=gr.Progress(track_tqdm=True)):
         url=url
     )
     video_id = parse_qs(parsed_url.query).get("v", [None])[0]
-
     vbd.get_vid_transcript(
         vid_url=url
     )
     logger.debug("VIDEO Transcript saved")
 
+    progress(0.20)
     img_parse = ImageParsing(
         base_url=os.getenv("MINDFLIX_BASE_URL")
     )
@@ -42,14 +37,20 @@ def process_video(url, progress=gr.Progress(track_tqdm=True)):
         vid_dir=f"./data/{video_id}",
         save_dir=f"./data/{video_id}_yolo"
     )
-    
+
+    progress(0.40)
     logger.debug("OBJECT DETECTION DONE")
 
+    vdb = VectorDB(
+        db_name="mindflix-nomic",
+        embed_model=EMBED_MODEL
+    )
     vectors = vdb.push_desc_embedding(
         vid_dir=f"./data/{video_id}_yolo",
         transcript_path=f"./data/{video_id}/{video_id}_captions.txt"
     )
-
+    
+    progress(1)
     logger.debug(f"Video SENT TO VECTOR DB VECTORS SENT: {vectors}")
 
     os.environ["VIDEO_ID_CURRENT"] = str(video_id)
@@ -58,6 +59,10 @@ def process_video(url, progress=gr.Progress(track_tqdm=True)):
 
 # Chatbot function
 def chatbot_response(message, history):
+    vdb = VectorDB(
+        db_name="mindflix-nomic",
+        embed_model=EMBED_MODEL
+    )
     response = vdb.query_db(
         input_text=message,
         video_id=os.getenv("VIDEO_ID_CURRENT"),

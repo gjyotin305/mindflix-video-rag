@@ -73,7 +73,7 @@ class VectorDB:
         logger.debug(f"VIDEO_ID: {video_id}")
 
         vectors = []
-
+        count = 0
         for index, object in enumerate(tqdm(img_dir_fpath)):
             timestamp = str(object.split('_')[-1]).split('.')[0]
             time_obj = datetime.strptime(timestamp, "%H:%M:%S").time()
@@ -114,7 +114,9 @@ class VectorDB:
             }
 
             vectors.append(payload)
-        
+            count += 1
+            logger.debug(f"VECTORS ADDED {count}")
+
         self.index.upsert(
             vectors=vectors,
             namespace=video_id
