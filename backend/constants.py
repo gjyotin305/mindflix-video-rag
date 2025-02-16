@@ -8,7 +8,8 @@ Mood & Atmosphere: Assess the image’s emotional tone based on expressions, pos
 Key Highlights: Identify any anomalies or standout features. Provide a plausible brief narrative based on the arrangement and detected elements.
 Keep descriptions precise, data-driven, and avoid assumptions beyond what the bounding boxes indicate.
 """
-EMBED_MODEL="nomic-ai/nomic-embed-text-v1"
+### Multi Lingual Embedding Model
+EMBED_MODEL="nomic-ai/nomic-embed-text-v2-moe"
 EMBED_TEMPLATE="""
 TRANSCRIPT:
 {}

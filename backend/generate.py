@@ -24,21 +24,19 @@ class ImageParsing:
 
     def yolo_inference_on_yt_video(self, vid_dir: str, save_dir: str):
         img_dir = os.listdir(vid_dir)
-        img_dir_fpath = [f"{vid_dir}/{img}" for img in img_dir]
+        img_dir_fpath = [f"{vid_dir}/{img}" for img in img_dir if not img.endswith('.txt')]
         os.makedirs(save_dir, exist_ok=True)
 
         results = self.yolo_model(
             img_dir_fpath, 
-            stream=True, 
-            save=True, 
-            project=save_dir,
-            exist_ok=True,
+            stream=True,
+            device="cpu",
             conf=0.4
         )
 
         for i, result in enumerate(tqdm(results)):
-            video_id = img_dir[i].split('_')[0]
-            timestamp_jpg = img_dir[i].split('_')[-1]
+            video_id = img_dir_fpath[i].split('_')[0]
+            timestamp_jpg = img_dir_fpath[i].split('_')[-1]
             result.save(filename=f"{save_dir}result_{video_id}_{timestamp_jpg}")
 
     def create_scene_description(self, prompt: str, img_file: str):
@@ -51,9 +49,12 @@ class ImageParsing:
             "images": [base64_image]
         }
 
-        headers = {'Accept-Encoding': 'gzip'}
+        headers = {
+            'Accept-Encoding': 'gzip', 
+            'Content-Type': 'application/json'
+        }
         response = requests.post(
-            self.base_url,
+            url=self.base_url,
             json=payload,
             headers=headers
         )
@@ -66,12 +67,12 @@ if __name__ == "__main__":
         "http://10.36.16.97:8443/api/generate",
         "yolo11"
     )
-    desc = img_parse.create_scene_description(
-        EXTRACT_PROMPT,
-        "./run_1/result_ftDsSB3F5kg_0:00:40.jpg"
-    )
-    print(desc)
-    # img_parse.yolo_inference_on_yt_video(
-    #     vid_dir="./data/ftDsSB3F5kg",
-    #     save_dir="./run_1/"
+    # desc = img_parse.create_scene_description(
+    #     EXTRACT_PROMPT,
+    #     "./run_1/result_ftDsSB3F5kg_0:00:40.jpg"
     # )
+    # print(desc)
+    img_parse.yolo_inference_on_yt_video(
+        vid_dir="./data/ftDsSB3F5kg",
+        save_dir="./run_1/"
+    )
