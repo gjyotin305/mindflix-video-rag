@@ -1,8 +1,9 @@
 from ultralytics import YOLO
 from tqdm import tqdm
 import requests
+from loguru import logger
 import os
-from constants import EXTRACT_PROMPT
+from .constants import EXTRACT_PROMPT
 import base64
 
 class ImageParsing:
@@ -37,7 +38,7 @@ class ImageParsing:
         for i, result in enumerate(tqdm(results)):
             video_id = img_dir_fpath[i].split('_')[0]
             timestamp_jpg = img_dir_fpath[i].split('_')[-1]
-            result.save(filename=f"{save_dir}result_{video_id}_{timestamp_jpg}")
+            result.save(filename=f"{save_dir}/result_{video_id}_{timestamp_jpg}")
 
     def create_scene_description(self, prompt: str, img_file: str):
         base64_image = self.convert_image(img_file=img_file)
@@ -62,17 +63,17 @@ class ImageParsing:
         return response.json()['response']
 
 
-if __name__ == "__main__":
-    img_parse = ImageParsing(
-        "http://10.36.16.97:8443/api/generate",
-        "yolo11"
-    )
-    # desc = img_parse.create_scene_description(
-    #     EXTRACT_PROMPT,
-    #     "./run_1/result_ftDsSB3F5kg_0:00:40.jpg"
-    # )
-    # print(desc)
-    img_parse.yolo_inference_on_yt_video(
-        vid_dir="./data/ftDsSB3F5kg",
-        save_dir="./run_1/"
-    )
+# if __name__ == "__main__":
+#     img_parse = ImageParsing(
+#         "http://10.36.16.97:8443/api/generate",
+#         "yolo11"
+#     )
+#     # desc = img_parse.create_scene_description(
+#     #     EXTRACT_PROMPT,
+#     #     "./run_1/result_ftDsSB3F5kg_0:00:40.jpg"
+#     # )
+#     # print(desc)
+#     img_parse.yolo_inference_on_yt_video(
+#         vid_dir="./data/ftDsSB3F5kg",
+#         save_dir="./run_1/"
+#     )

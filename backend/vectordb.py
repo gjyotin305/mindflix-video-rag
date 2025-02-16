@@ -3,9 +3,9 @@ from tqdm import tqdm
 from datetime import datetime
 from typing import List
 from loguru import logger
-from generate import ImageParsing
-from utils import get_transcript_dict, find_transcript
-from constants import EMBED_MODEL, EMBED_TEMPLATE, EXTRACT_PROMPT
+from .generate import ImageParsing
+from .utils import get_transcript_dict, find_transcript
+from .constants import EMBED_TEMPLATE, EXTRACT_PROMPT
 from sentence_transformers import SentenceTransformer
 import os
 
@@ -69,8 +69,6 @@ class VectorDB:
 
         yt_video = "https://youtube.com/watch?v={}"
 
-        logger.debug(str(img_dir_fpath[0].split('/')[-1]).split('_')[1])
-
         video_id = str(img_dir_fpath[0].split('/')[-1]).split('_')[1]
         logger.debug(f"VIDEO_ID: {video_id}")
 
@@ -124,12 +122,12 @@ class VectorDB:
         logger.debug(f"SENT {len(vectors)} TO VECTOR DB")
         return len(vectors)
 
-if __name__ == "__main__":
-    obj = VectorDB(
-        db_name="mindflix-nomic",
-        embed_model=f"{EMBED_MODEL}"
-    )
-    print(obj.query_db(
-        "पाती है आमतौर पर एक छोटी वीडियो बनाने के",
-        "ftDsSB3F5kg"
-    ))
+# if __name__ == "__main__":
+#     obj = VectorDB(
+#         db_name="mindflix-nomic",
+#         embed_model=f"{EMBED_MODEL}"
+#     )
+#     print(obj.query_db(
+#         "पाती है आमतौर पर एक छोटी वीडियो बनाने के",
+#         "ftDsSB3F5kg"
+#     ))

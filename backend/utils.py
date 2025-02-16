@@ -116,15 +116,15 @@ class VideoBreakDown:
             cv2.imwrite(filename, frame_bgr)
             logger.debug(f"Saved: {filename}")
 
-if __name__ == "__main__":
-    vid = VideoBreakDown()
-    # vid.get_vid_to_frame_by_frame(
-    #     "https://www.youtube.com/watch?v=ftDsSB3F5kg"
-    # )
-    # vid.get_vid_transcript(
-    #     "https://www.youtube.com/watch?v=ftDsSB3F5kg"
-    # )
-    print(vid.get_transcript_dict(
-        "./data/ftDsSB3F5kg/ftDsSB3F5kg_captions.txt"
-    ))
+# if __name__ == "__main__":
+#     vid = VideoBreakDown()
+#     # vid.get_vid_to_frame_by_frame(
+#     #     "https://www.youtube.com/watch?v=ftDsSB3F5kg"
+#     # )
+#     # vid.get_vid_transcript(
+#     #     "https://www.youtube.com/watch?v=ftDsSB3F5kg"
+#     # )
+#     print(vid.get_transcript_dict(
+#         "./data/ftDsSB3F5kg/ftDsSB3F5kg_captions.txt"
+#     ))
 
