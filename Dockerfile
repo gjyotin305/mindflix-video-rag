@@ -9,4 +9,6 @@ RUN uv venv /app/mindflix
 
 ENV PATH="/app/mindflix/bin:$PATH"
 
-RUN uv pip install 
+RUN uv pip sync requirements.txt
+
+RUN ["python", "main.py"]

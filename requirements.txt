@@ -35,7 +35,7 @@ mdurl==0.1.2
 mpmath==1.3.0
 networkx==3.4.2
 numpy==2.1.1
-opencv-python==4.11.0.86
+opencv-python-headless
 orjson==3.10.15
 packaging==24.2
 pandas==2.2.3
