@@ -8,6 +8,7 @@ __pycache__/
 # Models and images
 *.jpg
 *.pt
+*.txt
 *.avi
 *.mp4
 

@@ -35,10 +35,14 @@ class ImageParsing:
             conf=0.4
         )
 
+        logger.debug("OBJECT PREDICTED")
+
         for i, result in enumerate(tqdm(results)):
-            video_id = img_dir_fpath[i].split('_')[0]
+            video_id = img_dir_fpath[i].split('/')[2]
+            logger.debug(f"{video_id}")
             timestamp_jpg = img_dir_fpath[i].split('_')[-1]
-            result.save(filename=f"{save_dir}/result_{video_id}_{timestamp_jpg}")
+            result.save(
+                filename=f"{save_dir}/result_{video_id}_{timestamp_jpg}")
 
     def create_scene_description(self, prompt: str, img_file: str):
         base64_image = self.convert_image(img_file=img_file)

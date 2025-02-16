@@ -8,6 +8,11 @@ from backend.constants import EMBED_MODEL
 import time
 import os
 
+vdb = VectorDB(
+    db_name="mindflix-nomic",
+    embed_model=EMBED_MODEL
+)
+
 # Function to handle video processing
 def process_video(url, progress=gr.Progress(track_tqdm=True)):
     if not url.strip():
@@ -40,22 +45,25 @@ def process_video(url, progress=gr.Progress(track_tqdm=True)):
     
     logger.debug("OBJECT DETECTION DONE")
 
-    vdb = VectorDB(
-        db_name="mindflix-nomic",
-        embed_model=EMBED_MODEL
-    )
-    vdb.push_desc_embedding(
+    vectors = vdb.push_desc_embedding(
         vid_dir=f"./data/{video_id}_yolo",
         transcript_path=f"./data/{video_id}/{video_id}_captions.txt"
     )
 
-    logger.debug("Video SENT TO VECTOR DB")
+    logger.debug(f"Video SENT TO VECTOR DB VECTORS SENT: {vectors}")
+
+    os.environ["VIDEO_ID_CURRENT"] = str(video_id)
 
     return f"✅ Video URL Submitted: {url}"
 
 # Chatbot function
 def chatbot_response(message, history):
-    return "You said: " + message
+    response = vdb.query_db(
+        input_text=message,
+        video_id=f"{os.getenv("VIDEO_ID_CURRENT")}",
+        top_k=3
+    )
+    return f"You expected: {response}" 
 
 # Video URL submission interface
 video_interface = gr.Interface(
@@ -68,7 +76,9 @@ video_interface = gr.Interface(
 
 # Chatbot interface
 chat_interface = gr.ChatInterface(
-    fn=chatbot_response
+    title="Video-RAG",
+    fn=chatbot_response,
+    type="messages"
 )
 
 # Multi-tab Gradio App
