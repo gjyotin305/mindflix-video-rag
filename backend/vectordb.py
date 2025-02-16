@@ -123,6 +123,7 @@ class VectorDB:
             vectors=vectors,
             namespace=video_id
         )
+        logger.debug(f"SENT {len(vectors)} TO VECTOR DB")
         return len(vectors)
 
 if __name__ == "__main__":
@@ -134,7 +135,3 @@ if __name__ == "__main__":
         "पाती है आमतौर पर एक छोटी वीडियो बनाने के",
         "ftDsSB3F5kg"
     ))
-    # obj.push_desc_embedding(
-    #     vid_dir="./run_1",
-    #     transcript_path="./data/ftDsSB3F5kg/ftDsSB3F5kg_captions.txt"
-    # )
