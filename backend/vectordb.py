@@ -103,8 +103,6 @@ class VectorDB:
                 content=prompt
             )
 
-            logger.debug(embedding[0].shape)
-
             timestamp_yt = time_obj.strftime("%Hh%Mm%Ss")
 
             payload = {
@@ -116,7 +114,7 @@ class VectorDB:
                     "timestamp": f"{yt_video.format(video_id)}&t={timestamp_yt}"
                 }
             }
-            
+
             vectors.append(payload)
         
         self.index.upsert(
