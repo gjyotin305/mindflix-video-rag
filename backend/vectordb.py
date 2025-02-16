@@ -116,7 +116,7 @@ class VectorDB:
                     "timestamp": f"{yt_video.format(video_id)}&t={timestamp_yt}"
                 }
             }
-            logger.debug(payload)
+            
             vectors.append(payload)
         
         self.index.upsert(
