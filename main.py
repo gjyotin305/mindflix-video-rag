@@ -60,7 +60,7 @@ def process_video(url, progress=gr.Progress(track_tqdm=True)):
 def chatbot_response(message, history):
     response = vdb.query_db(
         input_text=message,
-        video_id=f"{os.getenv("VIDEO_ID_CURRENT")}",
+        video_id=os.getenv("VIDEO_ID_CURRENT"),
         top_k=3
     )
     return f"You expected: {response}" 
