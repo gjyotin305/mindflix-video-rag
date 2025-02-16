@@ -9,4 +9,4 @@ RUN uv venv /app/mindflix
 
 ENV PATH="/app/mindflix/bin:$PATH"
 
-RUN uv pip install gradio
+RUN uv pip install 
