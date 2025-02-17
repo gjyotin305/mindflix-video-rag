@@ -18,7 +18,7 @@ class VectorDB:
             trust_remote_code=True
         )
         self.model_vlm = ImageParsing(
-            base_url="http://10.36.16.97:11434/api/generate"
+            base_url=os.getenv("MINDFLIX_BASE_URL")
         )
         self.client_db = Pinecone(
             api_key=os.getenv("MINDFLIX_PINECONE")
@@ -43,6 +43,8 @@ class VectorDB:
             content=f"{input_text}"
         )
 
+        logger.debug("Embedding Generated | Retrieving from vectorDB")
+        
         response = self.index.query(
             namespace=video_id,
             vector=query_embedding[0],
