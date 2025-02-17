@@ -36,12 +36,12 @@ class VectorDB:
         if type == "query":
             payload = {
                 "model": f"{self.model}",
-                "input": f"{type}: {content}",
+                "input": [f"{type}: {content}"],
             }
         else:
             payload = {
                 "model": f"{self.model}",
-                "input": f"{type}: {content}",
+                "input": [f"{content}"],
             }
         headers = {
             'Accept-Encoding': 'gzip', 
@@ -53,7 +53,7 @@ class VectorDB:
             headers=headers
         )
 
-        return response.json()['embeddings']
+        return response.json()['embedding']
 
     def create_embedding_unit(self, type: str, content: str):
         sentences = [

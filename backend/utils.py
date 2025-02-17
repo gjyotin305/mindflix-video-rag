@@ -74,7 +74,7 @@ class VideoBreakDown:
             f.write(captions.generate_srt_captions())
             f.close()
 
-        print(f"Saving {video_id}_captions.txt")
+        logger.debug(f"Saving {video_id}_captions.txt")
 
 
     def get_vid_to_frame_by_frame(
