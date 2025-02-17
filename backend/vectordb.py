@@ -77,7 +77,7 @@ class VectorDB:
         
         response = self.index.query(
             namespace=video_id,
-            vector=query_embedding[0],
+            vector=query_embedding[0][:768],
             top_k=top_k,
             include_metadata=True,
             include_values=False
@@ -137,7 +137,7 @@ class VectorDB:
 
             payload = {
                 "id": f"id-{video_id}_{timestamp}",
-                "values": embedding[0].tolist(),
+                "values": embedding[0][:768],
                 "metadata": {
                     "yt_url": f"{yt_video.format(video_id)}",
                     "desc": f"{prompt}",
