@@ -53,7 +53,7 @@ def process_video(url, progress=gr.Progress(track_tqdm=True)):
     progress(1)
     logger.debug(f"Video SENT TO VECTOR DB VECTORS SENT: {vectors}")
 
-    os.environ["VIDEO_ID_CURRENT"] = str(video_id)
+    os.environ["VIDEO_CURRENT_ID"] = str(video_id)
 
     return f"✅ Video URL Submitted: {url}"
 
@@ -65,7 +65,7 @@ def chatbot_response(message, history):
     )
     response = vdb.query_db(
         input_text=message,
-        video_id=os.getenv("VIDEO_ID_CURRENT"),
+        video_id=os.getenv("VIDEO_CURRENT_ID"),
         top_k=3
     )
     return f"You expected: {response}" 

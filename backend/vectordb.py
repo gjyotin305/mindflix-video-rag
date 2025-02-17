@@ -53,7 +53,7 @@ class VectorDB:
             headers=headers
         )
 
-        return response.json()['embedding']
+        return response.json()['embeddings']
 
     def create_embedding_unit(self, type: str, content: str):
         sentences = [
@@ -68,12 +68,12 @@ class VectorDB:
         return embeddings
 
     def query_db(self, input_text: str, video_id: str, top_k: int = 3):
-        query_embedding = self.create_embedding_unit(
+        query_embedding = self.create_embedding_host(
             type="query",
             content=f"{input_text}"
         )
 
-        logger.debug("Embedding Generated | Retrieving from vectorDB")
+        logger.debug(f"Embedding Generated | Retrieving from vectorDB namespace: {video_id}")
         
         response = self.index.query(
             namespace=video_id,
