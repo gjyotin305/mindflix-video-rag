@@ -5,6 +5,9 @@ My implementation of Video-RAG
 
 VideoRAG (Retrieval-Augmented Generation for Video) is an advanced AI technique that enhances video-based information retrieval and understanding. It combines retrieval-augmented generation (RAG) with video processing capabilities, allowing AI models to generate accurate, context-aware responses based on video content.
 
+## Demo
+
+[Link](https://www.veed.io/view/e9737cbe-7078-4cf4-9155-fd2cbb78551d?panel=share)
 
 
 ## Implementation:
