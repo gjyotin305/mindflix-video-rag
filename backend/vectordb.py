@@ -3,6 +3,7 @@ from tqdm import tqdm
 from datetime import datetime
 from typing import List
 from loguru import logger
+import requests
 from .generate import ImageParsing
 from .utils import get_transcript_dict, find_transcript
 from .constants import EMBED_TEMPLATE, EXTRACT_PROMPT
@@ -10,13 +11,19 @@ from sentence_transformers import SentenceTransformer
 import os
 
 class VectorDB:
-    def __init__(self, db_name: str, embed_model: str):
+    def __init__(self, db_name: str, embed_model: str, local_bool: bool = False):
         self.db_name = db_name
         self.embed_model = embed_model
-        self.model = SentenceTransformer(
-            f"{self.embed_model}",
-            trust_remote_code=True
-        )
+        self.local_bool = local_bool
+        if self.local_bool:
+            self.model = SentenceTransformer(
+                f"{self.embed_model}",
+                trust_remote_code=True
+            )
+        else:
+            self.model = "snowflake-arctic-embed2"
+            self.base_url = os.getenv("MINDFLIX_EMBED_URL")
+
         self.model_vlm = ImageParsing(
             base_url=os.getenv("MINDFLIX_BASE_URL")
         )
@@ -24,6 +31,29 @@ class VectorDB:
             api_key=os.getenv("MINDFLIX_PINECONE")
         )
         self.index = self.client_db.Index(f"{self.db_name}")
+
+    def create_embedding_host(self, type: str, content: str):
+        if type == "query":
+            payload = {
+                "model": f"{self.model}",
+                "input": f"{type}: {content}",
+            }
+        else:
+            payload = {
+                "model": f"{self.model}",
+                "input": f"{type}: {content}",
+            }
+        headers = {
+            'Accept-Encoding': 'gzip', 
+            'Content-Type': 'application/json'
+        }
+        response = requests.post(
+            url=self.base_url,
+            json=payload,
+            headers=headers
+        )
+
+        return response.json()['embeddings']
 
     def create_embedding_unit(self, type: str, content: str):
         sentences = [
@@ -39,7 +69,7 @@ class VectorDB:
 
     def query_db(self, input_text: str, video_id: str, top_k: int = 3):
         query_embedding = self.create_embedding_unit(
-            type="search_query",
+            type="query",
             content=f"{input_text}"
         )
 
@@ -98,7 +128,7 @@ class VectorDB:
 
             prompt = EMBED_TEMPLATE.format(transcript, scene_desc)
 
-            embedding = self.create_embedding_unit(
+            embedding = self.create_embedding_host(
                 type="search_document",
                 content=prompt
             )
