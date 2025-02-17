@@ -15,7 +15,7 @@ VideoRAG (Retrieval-Augmented Generation for Video) is an advanced AI technique 
     - Transcript is downloaded in WebVTT format `<video_id>_captions.txt`
 - Frames (with Bounding Boxes) are then passed to the VLM for enhanced visual  description, accurate descriptions.
     - Frames are saved in `result_<video_id>_<timestamp>.jpg`
-- Visual Descriptions go through `nomic-embed-text-v2-moe` (multilingual embedding) for efficient search across languages, we can query in hindi and english both to get the results.
+- Visual Descriptions go through `nomic-embed-text-v2-moe`(local) and `snowflake-arctic-embed2`(hosted) (multilingual embedding) for efficient search across languages, we can query in hindi and english both to get the results.
     - Payload is made with description embedding, metadata with `yt_url`, `timestamp`: yt url with timestamp to directly play the video from that segment, `desc`: The description.
     - Payload is sent to Pinecone.
 
