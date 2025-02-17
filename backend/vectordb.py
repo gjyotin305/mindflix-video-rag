@@ -115,7 +115,7 @@ class VectorDB:
 
             vectors.append(payload)
             count += 1
-            logger.debug(f"VECTORS ADDED {count}")
+            logger.debug(f"VECTORS ADDED {count}/{len(img_dir_fpath)}")
 
         self.index.upsert(
             vectors=vectors,
@@ -123,13 +123,3 @@ class VectorDB:
         )
         logger.debug(f"SENT {len(vectors)} TO VECTOR DB")
         return len(vectors)
-
-# if __name__ == "__main__":
-#     obj = VectorDB(
-#         db_name="mindflix-nomic",
-#         embed_model=f"{EMBED_MODEL}"
-#     )
-#     print(obj.query_db(
-#         "पाती है आमतौर पर एक छोटी वीडियो बनाने के",
-#         "ftDsSB3F5kg"
-#     ))
